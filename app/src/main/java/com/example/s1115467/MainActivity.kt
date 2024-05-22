@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -109,6 +113,7 @@ fun Main(name: String, modifier: Modifier = Modifier) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FirstScreen(navController: NavHostController) {
+    var appear by remember { mutableStateOf(true) }
     val navController = rememberNavController()
     val context = LocalContext.current
     var showMenu by remember { mutableStateOf(false) }
@@ -140,11 +145,51 @@ fun FirstScreen(navController: NavHostController) {
                 }
             }
         )
-        Text(
-            text = "簡介",
+        if(appear) Text(
+            text = "瑪利亞基金會服務總覽",
+            color = Color.Blue,
+            modifier = Modifier
+            )
+        else Text(
+            text = "關於App作者",
             color = Color.Blue,
             modifier = Modifier
         )
+
+        AnimatedVisibility(
+            visible = appear,
+            enter = fadeIn(
+                initialAlpha = 0.1f,
+                animationSpec = tween(durationMillis = 3000)),
+            exit = fadeOut(
+                animationSpec = tween(durationMillis = 3000))
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.service),
+                contentDescription = "",
+                modifier = Modifier)
+        }
+
+        AnimatedVisibility(
+            visible =! appear,
+            enter = fadeIn(
+                initialAlpha = 0.1f,
+                animationSpec = tween(durationMillis = 3000)),
+            exit = fadeOut(
+                animationSpec = tween(durationMillis = 3000))
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.myphoto),
+                contentDescription = "",
+                modifier = Modifier)
+        }
+
+
+        Button(onClick = { appear=!appear }
+            ){
+            if(appear) Text(text = "作者：資管系蔡承宙")
+            else Text(text = "服務導覽")
+        }
     }
 }
 
