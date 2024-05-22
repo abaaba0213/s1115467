@@ -103,11 +103,6 @@ fun Main(name: String, modifier: Modifier = Modifier) {
                 }
             }
         )
-        /*Text(
-            text = "簡介",
-            color = Color.Blue,
-            modifier = modifier
-        )*/
     }
 }
 
