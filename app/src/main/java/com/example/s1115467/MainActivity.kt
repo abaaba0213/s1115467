@@ -46,7 +46,11 @@ import androidx.compose.foundation.layout.Column
 
 import androidx.compose.material3.Button
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
+import org.w3c.dom.Text
 
 
 class MainActivity : ComponentActivity() {
@@ -196,6 +200,7 @@ fun FirstScreen(navController: NavHostController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SecondScreen(navController: NavHostController) {
+    var appear by remember { mutableStateOf(true) }
     val navController = rememberNavController()
     val context = LocalContext.current
     var showMenu by remember { mutableStateOf(false) }
@@ -232,5 +237,40 @@ fun SecondScreen(navController: NavHostController) {
             color = Color.Red,
             modifier = Modifier
         )
+        Row(modifier=Modifier){
+            Button(onClick = { appear=true }) {
+                Text(text = "台中市愛心家園")
+            }
+            Button(onClick = { appear=false }) {
+                Text(text = "瑪利亞學園")
+            }
+        }
+        if (appear==true) Text(
+            text = "「台中市愛心家園」經市政府公開評選後，委託瑪利亞基金會經營管理，於91年啟用，整棟建築物有四個樓層，目前開辦就醫、就養、就學、就業四大領域的十項業務，提供身心障礙者全方位的服務。\n"
+        )
+        else Text(
+            text = "「瑪利亞學園」提供重度以及極重度多重障礙者日間照顧服務，以健康照護為基礎，支持生活多面向參與及學習概念，輔助發展重度身心障礙者自我概念為最終服務目標。\n"
+        )
+        if (appear==true) Text(
+            text = "長按以下圖片，可以觀看愛心家園地圖",
+            color = Color.Blue
+        )
+        else Text(
+            text = "雙擊以下圖片，可以觀看瑪利亞學園地圖",
+            color = Color.Blue
+        )
+        if (appear==true) (
+            Image(
+                painter = painterResource(id = R.drawable.lovehome),
+                contentDescription = "",
+                modifier = Modifier)
+        )
+        else (
+            Image(
+                painter = painterResource(id = R.drawable.campus),
+                contentDescription = "",
+                modifier = Modifier)
+        )
+
     }
 }
